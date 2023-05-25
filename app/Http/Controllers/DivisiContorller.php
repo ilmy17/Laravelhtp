@@ -50,17 +50,25 @@ class DivisiContorller extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        //arrahkan ke file edit yang ada didevisi view
+        $divisi = DB::table('divisi')->where('id', $id)->get();
+
+        return view ('admin.divisi.edit', compact('divisi'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        //buat proses edit form
+        DB::table('divisi')->where('id', $request->id)->update([
+            'nama' => $request->nama,
+        ]);
+        //ketika selesai mengupdate arahkan ke halaman admin divisi index
+        return redirect('admin/divisi');
     }
 
     /**

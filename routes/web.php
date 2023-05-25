@@ -46,11 +46,15 @@ Route::get('/staff', [StaffController::class, 'index']);
 Route::get('/pegawai', [PegawaiContorller::class, 'index']);
 Route::get('/pegawai/create', [PegawaiContorller::class, 'create']);
 Route::post('/pegawai/store', [PegawaiContorller::class, 'store']);
+Route::get('/pegawai/edit/{id}', [PegawaiContorller::class, 'edit']);
+Route::post('/pegawai/update', [PegawaiContorller::class, 'update']);
 
 //ini adlah route untuk divisi
 Route::get('/divisi', [DivisiContorller::class, 'index']);
 Route::get('/divisi/create', [DivisiContorller::class, 'create']);
 Route::post('/divisi/store', [DivisiContorller::class, 'store']);
+Route::get('/divisi/edit/{id}', [DivisiContorller::class, 'edit']);
+Route::post('/divisi/update/', [DivisiContorller::class, 'update']);
 
 });
 //nantinya pegawai tersebut mengambil pelatihan dan pada table pelatihan bertambah
