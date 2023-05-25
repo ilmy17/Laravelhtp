@@ -18,7 +18,7 @@
                                <!-- <i class="fas fa-table me-1"></i>
                                 DataTable Example -->
                                 <!--Membuat Tombol Mengarahkan ke file produk_form.php -->
-                                <a href="#" class="btn btn-primary btn-sm"> Tambah </a>
+                                <a href="{{url('admin/divisi/create')}}" class="btn btn-primary btn-sm"> Tambah </a>
                                 
                             </div>
 
