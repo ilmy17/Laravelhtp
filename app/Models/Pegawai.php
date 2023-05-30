@@ -11,7 +11,8 @@ class Pegawai extends Model
     protected $table = 'pegawai';
     protected $primarykey = 'id';
     protected $fillable = [
-        'nip','nama', 'jabatan_id','divisi_id', 'gender', 'tmp_lahir', 'tgl_lahir', 'alamat', 'foto'
+        'nip','nama', 'jabatan_id','divisi_id', 'gender', 'tmp_lahir', 
+        'tgl_lahir', 'kekayaan', 'alamat', 'foto'
     ];
     public function divisi(){
         return $this->belongsTo(Divisi::class); 

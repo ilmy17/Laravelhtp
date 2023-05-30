@@ -61,6 +61,7 @@ class PegawaiContorller extends Controller
             'gender' => $request->gender,
             'tmp_lahir' => $request->tmp_lahir,
             'tgl_lahir' =>  $request->tgl_lahir,
+            'kekayaan' => $request->kekayaan,
             'alamat' => $request->alamat,
             'foto' => $fileName,
         ]);
@@ -70,9 +71,15 @@ class PegawaiContorller extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         //
+        $pegawai = Pegawai::join('divisi', 'pegawai.divisi_id', '=', 'divisi.id')
+        ->join('jabatan', 'pegawai.jabatan_id', '=', 'jabatan.id')
+        ->select('pegawai.*','divisi.nama as divisi', 'jabatan.nama as jabatan')
+        ->where('pegawai.id', $id)
+        ->get();
+        return view ('admin.pegawai.detail', compact('pegawai'));
     }
 
     /**
@@ -111,6 +118,7 @@ class PegawaiContorller extends Controller
             'gender' => $request->gender,
             'tmp_lahir' => $request->tmp_lahir,
             'tgl_lahir' =>  $request->tgl_lahir,
+            'kekayaan' => $request->kekayaan,
             'alamat' => $request->alamat,
             'foto' => $fileName,
         ]);
@@ -122,6 +130,8 @@ class PegawaiContorller extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //menambahkan tombol hapus pada pegawai
+        DB::table('pegawai')->where('id', $id)->delete();
+        return redirect('admin/pegawai');
     }
 }

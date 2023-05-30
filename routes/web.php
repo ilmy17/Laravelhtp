@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\PegawaiContorller;
 use App\Http\Controllers\DivisiContorller;
+use App\Http\Controllers\JabatanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,12 +31,16 @@ Route::get ('/ucapan', function(){
 });
 Route::get('/nilai', function(){
     return view('nilai');
-}); //arahkan return nilai ke file nilai yang ada di view
+}); 
+
+//arahkan return nilai ke file nilai yang ada di view
 Route::get('/daftar_nilai', function(){
     return view('daftar_nilai');
 });
+
 //mengarahkan routing ke controller
 Route::get('/siswa', [SiswaController::class, 'dataSiswa']);
+
 //mengarahkan ke controller dashboardController
 //prefix atau group
 Route::prefix('admin')->group(function(){
@@ -48,6 +53,8 @@ Route::get('/pegawai/create', [PegawaiContorller::class, 'create']);
 Route::post('/pegawai/store', [PegawaiContorller::class, 'store']);
 Route::get('/pegawai/edit/{id}', [PegawaiContorller::class, 'edit']);
 Route::post('/pegawai/update', [PegawaiContorller::class, 'update']);
+Route::get('/pegawai/show/{id}', [PegawaiContorller::class,'show']);
+Route::get('pegawai/delete/{id}', [PegawaiContorller::class, 'destroy']);
 
 //ini adlah route untuk divisi
 Route::get('/divisi', [DivisiContorller::class, 'index']);
@@ -55,6 +62,10 @@ Route::get('/divisi/create', [DivisiContorller::class, 'create']);
 Route::post('/divisi/store', [DivisiContorller::class, 'store']);
 Route::get('/divisi/edit/{id}', [DivisiContorller::class, 'edit']);
 Route::post('/divisi/update/', [DivisiContorller::class, 'update']);
+Route::get('/divisi/show/{id}', [DivisiContorller::class, 'show']);
+Route::get('/divisi/delete/{id}', [DivisiContorller::class, 'destroy']);
 
+//ini adlah route untuk divisi
+Route::get('jabatan', [JabatanController::class, 'index']);
 });
 //nantinya pegawai tersebut mengambil pelatihan dan pada table pelatihan bertambah
