@@ -19,7 +19,7 @@
                                <!-- <i class="fas fa-table me-1"></i>
                                 DataTable Example -->
                                 <!--Membuat Tombol Mengarahkan ke file produk_form.php -->
-                                <a href="#" class="btn btn-primary btn-sm"> Tambah </a>
+                                <a href="{{url('admin/jabatan/create')}}" class="btn btn-primary btn-sm"> Tambah </a>
                                 
                             </div>
 
@@ -53,7 +53,7 @@
                                                 
                                                 <a class="btn btn-info btn-sm" href="#">Detail</a>
                                              
-                                                <a class="btn btn-warning btn-sm" href="#">Ubah</a>
+                                                <a class="btn btn-warning btn-sm" href="{{url('admin/jabatan/edit/'.$j->id)}}">Ubah</a>
 
                                                     <!-- <button type="submit" class="btn btn-danger btn-sm" name="proses" value="hapus"
                                                     onclick="return confirm('Anda yakin data tersebuta akan dihapus')">Hapus</button> -->
@@ -95,5 +95,5 @@
 
 </div>
 </div>
-+
+
 @endsection

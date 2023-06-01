@@ -20,6 +20,7 @@ use App\Http\Controllers\JabatanController;
 */
 
 Route::get('/', function () {
+    Alert::success('Selamat Datang');
     return view('welcome');
 });
 Route::get ('/salam', function(){
@@ -66,6 +67,11 @@ Route::get('/divisi/show/{id}', [DivisiContorller::class, 'show']);
 Route::get('/divisi/delete/{id}', [DivisiContorller::class, 'destroy']);
 
 //ini adlah route untuk divisi
-Route::get('jabatan', [JabatanController::class, 'index']);
+Route::get('/jabatan', [JabatanController::class, 'index']);
+Route::get('/jabatan/create',[JabatanController::class, 'create']);
+Route::post('/jabatan/store',[JabatanController::class, 'store']);
+Route::get('/jabatan/edit/{id}',[JabatanController::class, 'edit']);
+Route::post('/jabatan/update',[JabatanController::class, 'update']);
+
 });
 //nantinya pegawai tersebut mengambil pelatihan dan pada table pelatihan bertambah

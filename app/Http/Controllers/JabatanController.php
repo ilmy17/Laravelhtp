@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Jabatan;
 use DB;
+use Alert;
 
 class JabatanController extends Controller
 {
@@ -24,6 +25,7 @@ class JabatanController extends Controller
     public function create()
     {
         //
+        return view ('admin.jabatan.create');
     }
 
     /**
@@ -31,7 +33,13 @@ class JabatanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         //fungsi untuk mengisi data pada form
+         DB::table('jabatan')->insert([
+            'nama' => $request->nama,
+        ]);
+
+        Alert::success('Jabatan', 'Berhasil Menambahkan jabatan');
+        return redirect('admin/jabatan');
     }
 
     /**
@@ -47,15 +55,25 @@ class JabatanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        //arrahkan ke file edit yang ada didevisi view
+        $jabatan = DB::table('jabatan')->where('id', $id)->get(); 
+
+        return view ('admin.jabatan.edit', compact('jabatan'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        // 
+         //buat proses edit form
+         DB::table('jabatan')->where('id', $request->id)->update([
+            'nama' => $request->nama,
+        ]);
+
+        Alert::info('Jabatan', 'Berhasil Mengedit Jabatan');
+        return redirect('admin/jabatan');
     }
 
     /**
