@@ -6,6 +6,18 @@
 
 @foreach ($pegawai as $p)
 <h1 align="center">Form Edit Pegawai</h1>
+
+@if ($errors->any())
+<div class="alert alert-danger">
+  <ul>
+    @foreach ($errors->all() as $error)
+    <li> {{$error}} </li>
+    @endforeach
+</ul>
+
+</div>
+@endif
+
 <form method="POST" action="{{url('admin/pegawai/update')}}" enctype="multipart/form-data">
   {{csrf_field()}}
   <div class="form-group row">
@@ -26,7 +38,8 @@
     <div class="col-8">
       <select id="select" name="jabatan_id" class="custom-select">
         @foreach($jabatan as $j)
-        <option value="{{$j->id}}">{{$j->nama}}</option>
+        @php $sel = ($j->id == $p->jabatan_id) ? 'selected' : ''; @endphp
+        <option value="{{$j->id}}" {{$sel}}>{{$j->nama}}</option>
         @endforeach
       </select>
     </div>
@@ -36,7 +49,8 @@
     <div class="col-8">
       <select id="select1" name="divisi_id" class="custom-select">
         @foreach ($divisi as $d)
-        <option value="{{$d->id}}">{{$d->nama}}</option>
+        @php $sel = ($d->id == $p->divisi_id) ? 'selected' : ''; @endphp
+        <option value="{{$d->id}}"{{$sel}}>{{$d->nama}}</option>
         @endforeach  
     </select>
     </div>
@@ -44,14 +58,17 @@
   <div class="form-group row">
     <label class="col-4">Jenis Kelamin</label> 
     <div class="col-8">
+      @foreach($ar_gender as $gender)
+      @php $cek = ($gender == $p->gender) ? 'checked' : ''; @endphp
       <div class="custom-control custom-radio custom-control-inline">
-        <input name="gender" id="radio_0" type="radio" class="custom-control-input" value="L"> 
-        <label for="radio_0" class="custom-control-label">Laki-laki</label>
+        <input name="gender" id="radio_0" type="radio" class="form-check-input" value="{{$gender}}" {{$cek}}> 
+        <label for="radio_0" class="form-check-label">{{$gender}}</label>
       </div>
-      <div class="custom-control custom-radio custom-control-inline">
+      <!-- <div class="custom-control custom-radio custom-control-inline">
         <input name="gender" id="radio_1" type="radio" class="custom-control-input" value="P"> 
         <label for="radio_1" class="custom-control-label">Perempuan</label>
-      </div>
+      </div> -->
+      @endforeach
     </div>
   </div>
   <div class="form-group row">
@@ -83,11 +100,10 @@
     <div class="col-8">
       <input id="text4" name="foto" type="file" class="form-control">
       <div>
-      @empty($p->foto)
-        <img src="{{url('admin/image/nofoto.jpg')}}" width="80%">
-         @else
-         <img src="{{url('admin/image')}}/{{$p->foto}}" width="60%">
-         @endempty
+      @if(!empty($p->foto))
+        <img src="{{url('admin/image/')}}/{{$p->foto}}" width="100%">
+        <br>{{$p->foto}}
+        @endif
     </div>
   </div> 
   <div class="form-group row">

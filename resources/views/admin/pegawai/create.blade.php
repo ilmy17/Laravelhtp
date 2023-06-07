@@ -6,18 +6,39 @@
 
 
 <h1 align="center">Form tambah Pegawai</h1>
+@if ($errors->any())
+<div class="alert alert-danger">
+  <ul>
+    @foreach ($errors->all() as $error)
+    <li> {{$error}} </li>
+    @endforeach
+</ul>
+
+</div>
+@endif
+
 <form method="POST" action="{{url('admin/pegawai/store')}}" enctype="multipart/form-data">
   {{csrf_field()}}
   <div class="form-group row">
     <label for="text" class="col-4 col-form-label">NIP</label> 
     <div class="col-8">
-      <input id="text" name="nip" type="text" class="form-control" placeholder="Masukkan NIP">
+      <input id="text" name="nip" type="text" class="form-control @error('nip') is-invalid @enderror" placeholder="Masukkan NIP">
+      @error('nip')
+      <div class="invalid-feedback">
+        {{$message}}
+    </div>
+    @enderror
     </div>
   </div>
   <div class="form-group row">
     <label for="text1" class="col-4 col-form-label">Nama</label> 
     <div class="col-8">
-      <input id="text1" name="nama" type="text" class="form-control" placeholder="Masukkan Nama">
+      <input id="text1" name="nama" type="text" class="form-control @error('nama') is-invalid @enderror" placeholder="Masukkan Nama">
+      @error('nama')
+      <div class="invalid-feedback">
+        {{$message}}
+    </div>
+    @enderror
     </div>
   </div>
   <div class="form-group row">
@@ -56,19 +77,34 @@
   <div class="form-group row">
     <label for="text2" class="col-4 col-form-label">Tempat Lahir</label> 
     <div class="col-8">
-      <input id="text2" name="tmp_lahir" type="text" class="form-control" placeholder="Masukkan Tempat Lahir">
+      <input id="text2" name="tmp_lahir" type="text" class="form-control @error('tmp_lahir') is-invalid @enderror" placeholder="Masukkan Tempat Lahir">
+      @error('tmp_lahir')
+      <div class="invalid-feedback">
+        {{$message}}
+    </div>
+    @enderror
     </div>
   </div>
   <div class="form-group row">
     <label for="text3" class="col-4 col-form-label">Tanggal Lahir</label> 
     <div class="col-8">
-      <input id="text3" name="tgl_lahir" type="date" class="form-control">
+      <input id="text3" name="tgl_lahir" type="date" class="form-control @error('tgl_lahir') is-invalid @enderror">
+      @error('tgl_lahir')
+      <div class="invalid-feedback">
+        {{$message}}
+    </div>
+    @enderror
     </div>
   </div>
   <div class="form-group row">
     <label for="text2" class="col-4 col-form-label">Kekayaan</label> 
     <div class="col-8">
-      <input id="text2" name="kekayaan" type="text" class="form-control" placeholder="Masukkan Harta kekayaan">
+      <input id="text2" name="kekayaan" type="text" class="form-control @error('kekayaan') is-invalid @enderror" placeholder="Masukkan Harta kekayaan">
+      @error('kekayaan')
+      <div class="invalid-feedback">
+        {{$message}}
+    </div>
+    @enderror
     </div>
   </div>
   <div class="form-group row">

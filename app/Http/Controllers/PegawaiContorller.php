@@ -7,6 +7,7 @@ use App\Models\Pegawai;
 use App\Models\Divisi;
 use App\Models\Jabatan;
 use DB;
+use PDF;
 
 class PegawaiContorller extends Controller
 {
@@ -43,6 +44,33 @@ class PegawaiContorller extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nip' => 'required|unique:pegawai|max:5',
+            'nama' => 'required|max:45',
+            'jabatan_id' => 'required|integer',
+            'divisi_id' => 'required|integer',
+            'gender' => 'required',
+            'tmp_lahir' => 'required',
+            'tgl_lahir' => 'required',
+            'kekayaan' => 'required',
+            'alamat' => 'nullable|string|min:10',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,gif,svg|max:2048',
+        ],
+        [
+            'nip.required' => 'NIP Wajib Diisi',
+            'nip.unique' => 'NIP sudah ada, masuk NIP yang lain',
+            'nip.max' => 'NIP maksimal 5 karakter',
+            'nama.required' => 'Nama Wajib Diisi',
+            'nama.max' => 'Nama maksimal 45 Karakter',
+            'jabatan_id.required' => 'Jabatan Wajib Diisi',
+            'divisi_id.required' => 'Divisi Wajib Diisi',
+            'tmp_lahir.required' => 'Tempat Lahir Wajib Diisi',
+            'tgl_lahir.required' => 'Tanggal Lahir Wajib Diisi',
+            'kekayaan.required' => 'Kekayaan Wajib Diisi',
+            'gender.required' => 'jenis kelamin Wajib Diisi',
+        ]
+    );
+
         //sintaks untuk menambahkan foto
         if(!empty($request->foto)){
             $fileName = 'foto-'.$request->id.'.'.$request->foto->extension();
@@ -92,8 +120,8 @@ class PegawaiContorller extends Controller
         $divisi = DB::table('divisi')->get();
         $jabatan = DB::table('jabatan')->get();
         $pegawai = DB::table('pegawai')->where('id',$id)->get();
-
-        return view('admin.pegawai.edit', compact('pegawai', 'divisi', 'jabatan'));
+        $ar_gender = ['L', 'P'];
+        return view('admin.pegawai.edit', compact('pegawai', 'divisi', 'jabatan', 'ar_gender'));
     }
 
     /**
@@ -101,13 +129,33 @@ class PegawaiContorller extends Controller
      */
     public function update(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|max:45',
+            'jabatan_id' => 'required|integer',
+            'divisi_id' => 'required|integer',
+            'gender' => 'required',
+            'tmp_lahir' => 'required',
+            'tgl_lahir' => 'required',
+            'kekayaan' => 'required',
+            'alamat' => 'nullable|string|min:10',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,gif,svg|max:2048',
+        ]);
+        //foto lama apabila user mengganti fotonya
+        $foto = DB::table('pegawai')->select('foto')->where('id', $request->id)->get();
+        foreach($foto as $f){
+            $namaFileFotoLama = $f->foto;
+
+        }
+        //apakah user ingin ganti foto lama
         if(!empty($request->foto)){
+            //jika  ada foto lama maka hapus dulu fotonya
+            if(!empty($p->foto)) unlink('admin/image/'.$p->foto);
+            //proses ganti foto
             $fileName = 'foto-'.$request->id.'.'.$request->foto->extension();
             $request->foto->move(public_path('admin/image'), $fileName);
         }
         else {
-            $fileName = '';
+            $fileName = $namaFileFotoLama;
         }
 
         DB::table('pegawai')->where('id', $request->id)->update([
@@ -133,5 +181,22 @@ class PegawaiContorller extends Controller
         //menambahkan tombol hapus pada pegawai
         DB::table('pegawai')->where('id', $id)->delete();
         return redirect('admin/pegawai');
+    }
+    public function generatePDF()
+    {
+        $data = [
+            'title' => 'Welcome to ItSolutionStuff.com',
+            'date' => date('m/d/Y')
+        ];
+          
+        $pdf = PDF::loadView('admin.pegawai.myPDF', $data);
+    
+        return $pdf->download('testdownload.pdf');
+    }
+    public function pegawaiPDF(){
+        $pegawai = Pegawai::all();
+        $pdf = PDF::loadview('admin.pegawai.pegawaiPDF', ['pegawai' => $pegawai])->setPaper('a4','landscape');
+        // return $pdf->download('data_pegawai.pdf');
+        return $pdf->stream();
     }
 }

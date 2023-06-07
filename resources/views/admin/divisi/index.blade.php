@@ -95,5 +95,14 @@
 
 </div>
 </div>
-+
+<script>
+    $(document).ready(function() {
+    $('#datatablesSimple').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+} );
+    </script>
 @endsection
