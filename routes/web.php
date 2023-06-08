@@ -58,6 +58,8 @@ Route::get('/pegawai/show/{id}', [PegawaiContorller::class,'show']);
 Route::get('pegawai/delete/{id}', [PegawaiContorller::class, 'destroy']);
 Route::get('generate-pdf', [PegawaiContorller::class, 'generatePDF']);
 Route::get('/pegawai/pegawaiPDF', [PegawaiContorller::class, 'pegawaiPDF']);
+Route::get('/pegawai/exportexcel/', [PegawaiContorller::class, 'exportExcel']);
+Route::post('/pegawai/importexcel', [PegawaiContorller::class, 'importExcel']);
 
 //ini adlah route untuk divisi
 Route::get('/divisi', [DivisiContorller::class, 'index']);
